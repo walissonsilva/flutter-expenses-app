@@ -1,9 +1,7 @@
 import 'package:finances/models/transaction.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
-main() => runApp(FinancesApp());
+main() => runApp(const FinancesApp());
 
 class FinancesApp extends StatelessWidget {
   const FinancesApp({Key? key}) : super(key: key);
@@ -36,18 +34,57 @@ class MyHomeScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            child: Card(
-              color: Colors.blue,
-              child: Text(
-                "Gráfico",
-                style: TextStyle(color: Colors.white),
-              ),
-              elevation: 5,
+          const Card(
+            color: Colors.blue,
+            elevation: 5,
+            child: Text(
+              "Gráfico",
+              style: TextStyle(color: Colors.white),
             ),
           ),
-          Card(
-            child: Text("Lista de transações"),
+          Column(
+            children: _transactions
+                .map((transaction) => Card(
+                        child: Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 10,
+                          ),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                            color: Colors.purple,
+                            width: 2,
+                          )),
+                          padding: const EdgeInsets.all(10),
+                          child: Text(
+                            "R\$ ${transaction.value.toStringAsFixed(2)}",
+                            style: const TextStyle(
+                              color: Colors.purple,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              transaction.title,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16),
+                            ),
+                            Text(
+                              transaction.date.toString(),
+                              style: TextStyle(color: Colors.grey[600]),
+                            )
+                          ],
+                        )
+                      ],
+                    )))
+                .toList(),
           )
         ],
       ),
