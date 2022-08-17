@@ -1,5 +1,6 @@
 import 'package:finances/models/transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 main() => runApp(const FinancesApp());
 
@@ -77,7 +78,7 @@ class MyHomeScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                             Text(
-                              transaction.date.toString(),
+                              DateFormat("d MMM y").format(transaction.date),
                               style: TextStyle(color: Colors.grey[600]),
                             )
                           ],
@@ -85,6 +86,18 @@ class MyHomeScreen extends StatelessWidget {
                       ],
                     )))
                 .toList(),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                  onPressed: () => showDialog(
+                        context: context,
+                        builder: (context) => const AlertDialog(
+                            title: Text("Ops!"), content: Text("Em breve...")),
+                      ),
+                  child: const Text("NOVA DESPESA")),
+            ],
           )
         ],
       ),
