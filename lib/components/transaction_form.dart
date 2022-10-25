@@ -63,7 +63,7 @@ class TransactionForm extends StatelessWidget {
                   },
                   child: const Text(
                     'Nova Despesa',
-                    style: TextStyle(color: Colors.purple),
+                    style: TextStyle(color: Colors.blue),
                   )),
             ],
           )
