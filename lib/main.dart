@@ -16,6 +16,9 @@ class FinancesApp extends StatelessWidget {
 }
 
 class MyHomeScreen extends StatelessWidget {
+  final titleController = TextEditingController();
+  final valueController = TextEditingController();
+
   final _transactions = [
     Transaction(id: '1', title: 'Pizza', value: 50, date: DateTime.now()),
     Transaction(id: '2', title: 'Carrefour', value: 120, date: DateTime.now()),
@@ -32,7 +35,6 @@ class MyHomeScreen extends StatelessWidget {
         title: const Text("Personal Finances"),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const Card(
@@ -87,18 +89,40 @@ class MyHomeScreen extends StatelessWidget {
                     )))
                 .toList(),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                  onPressed: () => showDialog(
-                        context: context,
-                        builder: (context) => const AlertDialog(
-                            title: Text("Ops!"), content: Text("Em breve...")),
-                      ),
-                  child: const Text("NOVA DESPESA")),
-            ],
-          )
+          Card(
+            elevation: 5,
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(children: <Widget>[
+                TextField(
+                  controller: titleController,
+                  decoration: const InputDecoration(
+                    labelText: 'Título',
+                  ),
+                ),
+                TextField(
+                  controller: valueController,
+                  decoration: const InputDecoration(
+                    labelText: 'Valor (R\$)',
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          print(titleController.text);
+                          print(valueController.text);
+                        },
+                        child: const Text(
+                          'Nova Despesa',
+                          style: TextStyle(color: Colors.purple),
+                        )),
+                  ],
+                )
+              ]),
+            ),
+          ),
         ],
       ),
     );
