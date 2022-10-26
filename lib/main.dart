@@ -1,4 +1,9 @@
+import 'dart:math';
+
+import 'package:finances/components/transaction_form.dart';
+import 'package:finances/components/transaction_list.dart';
 import 'package:finances/components/transaction_user.dart';
+import 'package:finances/models/transaction.dart';
 import 'package:flutter/material.dart';
 
 main() => runApp(const FinancesApp());
@@ -14,8 +19,42 @@ class FinancesApp extends StatelessWidget {
   }
 }
 
-class MyHomeScreen extends StatelessWidget {
+class MyHomeScreen extends StatefulWidget {
   const MyHomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomeScreen> createState() => _MyHomeScreenState();
+}
+
+class _MyHomeScreenState extends State<MyHomeScreen> {
+  _openModalTransactionForm(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: ((_) {
+        return TransactionForm(onSubmitTransaction: _addTransaction);
+      }),
+    );
+  }
+
+  final _transactions = [
+    Transaction(id: '1', title: 'Pizza', value: 50, date: DateTime.now()),
+    Transaction(id: '2', title: 'Carrefour', value: 120, date: DateTime.now()),
+    Transaction(id: '3', title: 'HBO Max', value: 13.95, date: DateTime.now()),
+    Transaction(id: '4', title: 'Academia', value: 130, date: DateTime.now()),
+  ];
+
+  _addTransaction(String title, double value) {
+    final newTransaction = Transaction(
+      id: Random().nextDouble().toString(),
+      title: title,
+      value: value,
+      date: DateTime.now(),
+    );
+
+    setState(() {
+      _transactions.add(newTransaction);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +66,6 @@ class MyHomeScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          // ignore: prefer_const_literals_to_create_immutables
           children: [
             const Card(
               color: Colors.deepOrangeAccent,
@@ -37,7 +75,7 @@ class MyHomeScreen extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
               ),
             ),
-            const TransactionUser(),
+            TransactionList(transactions: _transactions),
           ],
         ),
       ),
@@ -45,7 +83,7 @@ class MyHomeScreen extends StatelessWidget {
         child: Icon(Icons.add),
         backgroundColor: Colors.deepOrangeAccent,
         onPressed: () {
-          print('Hello');
+          _openModalTransactionForm(context);
         },
         tooltip: 'Adicionar despesa',
       ),
