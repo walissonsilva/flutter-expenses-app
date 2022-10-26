@@ -13,8 +13,11 @@ class FinancesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: MyHomeScreen(),
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+      ),
     );
   }
 }
@@ -54,6 +57,8 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
     setState(() {
       _transactions.add(newTransaction);
     });
+
+    Navigator.of(context).pop();
   }
 
   @override
